@@ -1,0 +1,42 @@
+/**Polina Soshnin
+ *
+ *This class makes a request, really simply 
+ *String from a request from
+ *String from a request to
+ */
+
+import java.util.*;
+
+public class Request {
+
+    //instance variables
+   private  String cityLeaving; //code for city you want to leave
+    private  String cityArriving; //code for city you want to go to 
+
+    public Request(String cityFrom, String cityTo) {
+	this.cityLeaving=cityFrom;
+	this.cityArriving=cityTo;
+
+    }
+
+    public String getCityLeaving() {
+	return cityLeaving;
+    }
+    public String getCityArriving() {
+	return cityArriving;
+    }
+
+    //SAME PROBLEM AS TO STRING IN FLIGHT CLASS//
+    //work on that later 
+    public String toString() {
+	String s= "";
+	s= "for flight between "+getCityLeaving()+" and "+getCityArriving();
+	return s;
+
+    }
+
+
+    public static void main(String[] args) {
+
+    }
+}

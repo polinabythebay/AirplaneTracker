@@ -1,0 +1,106 @@
+/**WHO:Polina Soshnin
+ *WHAT: CS230 Exam 2 Problem 3
+ *
+ *This class reads in from a text file,
+ *makes a request object from each line,
+ *and stores the requests in a linkedlist of requests
+ *with a cityLeaving and city arriving attached to each flight
+ */
+
+import java.io.*;    
+import java.util.*;  
+import java.net.*; 
+
+public class Requests {
+
+    //instance variables
+    //a linked list of cities, each having a code and a name 
+    LinkedList<Request> requests;
+    
+    public Requests(String fileName) { 
+
+        requests= new LinkedList<Request>();
+	populateRequestLL(fileName); 
+	//populates a LinkedList of Request objects by reading in text
+	//with Request information with the given filename	
+    }
+
+    /**reads in a file containing information about requests,
+     *constructs request objects from each line
+     *and stores those objects in a linkedlist
+    */
+
+    public void populateRequestLL (String txtFileName) {
+
+	try{
+	    Scanner reader= new Scanner(new File(txtFileName));
+	    String line="";
+	    while(reader.hasNext()) { //continue until we reach end of file
+		//reads next line of input and prints it out
+		line=reader.nextLine(); //next line is a string
+		String[] split= line.split(" "); 
+		//splits the given line into an array by space
+		
+		Request aRequest = new Request(split[0], split[1]); 
+		requests.add(aRequest); //add request to requests linkedlist
+	    }
+	    reader.close();
+	} catch (FileNotFoundException E) {
+	    System.out.println("This file has no requests in it. Please try again.");
+	}
+    }
+
+    public LinkedList<Request> getRequestLL() {
+	return requests;
+    }
+
+    /**This method matches a request code with its city name 
+     *and returns this flight information
+     */
+
+    public static String matchRequestsCityCodes(String s1, String s2) {
+	Cities cityLL= new Cities("cities.txt"); //creates a cities LL
+	int i=0;
+	String s="for flight between ";
+
+	for(i=0; i<cityLL.getCityLL().size(); i++) {
+	    
+	    if(cityLL.getCityLL().get(i).getCode().equals(s1))
+ {
+		s=s+Cities.getCityLL().get(i).getName();
+		//get city leaving request
+
+	    }
+	}
+	for(i=0; i<cityLL.getCityLL().size(); i++) {
+	    //  if(cityLL.getCityLL().get(i).getCode().equals(requests.get(requestIndex).getCityArriving()))
+	    if(cityLL.getCityLL().get(i).getCode().equals(s2))
+ {
+		s=s+" and "+Cities.getCityLL().get(i).getName();
+		//get city arriving request
+
+	    }
+	}
+	return s;
+
+
+    }
+
+    public int size() {
+	return requests.size();
+    }
+
+    public static void main(String[] args) {
+
+	Requests test = new Requests("requests.txt"); //it displays the file 
+	//no need to input this from keyboard
+	//	if ((args.length==2) && (args[0].equals("display"))) {
+	//  test.populate(args[1]);
+	//	}
+	//	int j=0;
+	//	for(j=0; j<test.size(); j++) {
+	//	System.out.println(test.matchRequestsCityCodes(j)); //first one should return "WA1142 from Atlanta, GA to Washington, DC"
+	//	}
+    }
+
+    }

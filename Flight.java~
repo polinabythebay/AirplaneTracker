@@ -1,0 +1,59 @@
+/**Polina Soshnin
+ *
+ *This class makes a flight
+ *a flight contains a home and a destination (strings)
+ *a flight also contains a flight # (string)
+ *a flight also contains a price (int) 
+ */
+
+import java.util.*;
+
+public class Flight {
+
+    //instance variables
+    private  String homeCity;
+    private  String destinationCity; 
+    private String flightNum;
+    private int price;
+
+    public Flight(String aHome, String aDestination, String aNum, 
+		  int aprice) {
+	this.homeCity=aHome;
+	this.destinationCity=aDestination;
+	this.flightNum=aNum;
+	this.price=aprice;
+
+    }
+
+    public String getHomeCity() {
+	return homeCity;
+    }
+    public String getDestinationCity() {
+	return destinationCity;
+    }
+
+    public String getFlightNum() {
+	return flightNum;
+    }
+    
+    public int getPrice() {
+	return price;
+    }
+
+    //NEED TO FIX TO STRING!!!
+
+    //need to change getHomeCity/getDestinationCity to be
+    //the actual real names, not the codes 
+    //work on this part later
+    public String toString() {
+	String s="";
+	s="WA"+flightNum+" from "+getHomeCity()+" to "+getDestinationCity();
+	return s;
+
+
+    }
+
+    public static void main(String[] args) {
+
+    }
+}

@@ -1,0 +1,33 @@
+/**Polina Soshnin
+ *
+ *This class makes a city from two strings 
+ *the code string and the name string
+ */
+
+import java.util.*;
+
+public class City {
+
+    //instance variables
+   private  String code; //code for the city, ie. ANC or ATL
+   private  String name; //name for the city, ie. "Atlanta, GA" or "New York, NY"
+    public City(String acode, String aname) {
+	this.code=acode;
+	this.name=aname;
+
+    }
+
+    public String getCode() {
+	return code;
+    }
+    public String getName() {
+	return name;
+    }
+    public String toString() {
+	return code; //we only want the name of the city to be returned in the toString
+    }
+
+    public static void main(String[] args) {
+
+    }
+}

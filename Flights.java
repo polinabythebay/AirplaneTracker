@@ -1,0 +1,173 @@
+/**WHO:Polina Soshnin
+ *WHAT: CS230 Exam 2 Problem 3
+ *WHEN: October 27, 2012
+ *MODIFIED: October 31, 2012
+ *PURPOSE: Reads in a text file containing information
+ *about flights and their corresponding ID, origin, destination, 
+ *and price
+ *Constructs a linkedlist of flight objects containing
+ *this information
+ *
+ *The StackSearch.java class uses this class to construct a 
+ *graph of possible flight, where each graphnode represents a possible
+ *flight on the graph.
+ *
+ */
+
+import java.io.*;    
+import java.util.*;  
+import java.net.*; 
+
+public class Flights {
+
+    //instance variables
+    //a linked list of cities, each having a code and a name 
+   private static LinkedList<Flight> flights;
+    
+    
+    public Flights(String afileName) { 
+
+        flights= new LinkedList<Flight>();
+	populateFlightLL(afileName); 
+	//populates LinkedList of Flight objects by reading in text with
+	//Flight information with the given filename	
+    }
+
+    /**reads in a file containing information about flights,
+     *constructs flight objects from each line
+     *and stores those objects in a linkedlist
+     */
+    
+    public void populateFlightLL (String txtFileName) {
+
+	try{
+	    Scanner reader= new Scanner(new File(txtFileName));
+	    String line="";
+	    while(reader.hasNext()) { //continue until we reach end of file
+		//reads next line of input and prints it out
+		line=reader.nextLine(); //next line is a string
+		String[] split= line.split(" "); 
+		//splits the given line into an array by space
+		
+		Flight aFlight = new Flight(split[0], split[1], split[2],
+					    Integer.parseInt(split[3]));
+		flights.add(aFlight); //add flight to flights linkedlist
+		}
+	    
+	    reader.close();
+	} catch (FileNotFoundException E) {
+	    System.out.println("This file has no flights in it. Please try again.");
+    }
+    }
+
+    public int size() {
+	return flights.size();
+    }
+
+    public static LinkedList<Flight> getFlights() {
+	return flights;
+
+    }
+
+    
+    /**This method matches a flight code with its city name
+     *and returns the city name along with some flight information
+     */
+
+    public static String matchFlightsCityCodes(String s1, String s2) {
+	
+	Cities cityLL = new Cities("cities.txt"); //creates a cities LL
+	int i=0;
+	String aString= connectCodestoFlightNum(s1, s2);
+	String s= "WA"+aString+" from ";
+	//starts with the first city in the cities LL
+	for(i=0; i<cityLL.getCityLL().size(); i++) {
+	    //if the city code matches the flight HomeCity, 
+	    //it returns the name of the city
+	    //otherwise, it keeps going through the for loop
+	    
+	    if (cityLL.getCityLL().get(i).getCode().equals(s1))
+		{
+		    s=s+Cities.getCityLL().get(i).getName();
+		}
+	}
+	//need to match city to destination city
+      	for(i=0; i<cityLL.getCityLL().size(); i++) {
+	    //if the city code matches the flight HomeCity, 
+	    //it returns the name of the city
+	    //otherwise, it keeps going through the for loop
+	    if (cityLL.getCityLL().get(i).getCode().equals(s2)){
+		s=s+" to "+Cities.getCityLL().get(i).getName();
+		//getDestinationCity
+	    }
+	}	  	
+	return s; 
+	//s should return, for example:
+	//"for flight between Anchorage, AK and Atlanta, GA"
+
+    }
+
+    /**This method compares a city index to an entire flights linkedlist
+     * and stores
+     *its neighbors in a string linkedlist
+     */
+    
+    public LinkedList<String> listofNeighbors(int cityIndex){
+	Cities cityLL = new Cities("cities.txt"); //creates a cities LL
+	int i=0;
+	LinkedList<String> list= new LinkedList<String>();
+	for(i=0; i<flights.size();i++){
+	    if(flights.get(i).getHomeCity().equals(cityLL.getCityLL().get(cityIndex).getCode())) { 		
+		list.add(flights.get(i).getDestinationCity()); 
+		//populates a LL of all the destination cities
+		//associated with the specific city in the city LL
+	    }
+	}
+	return list;
+    }
+
+    /**This method connects two codes to a flight number
+     */
+    
+    public static String connectCodestoFlightNum(String code1, String code2) {
+	String s="";
+	int i=0;
+	for(i=0; i<flights.size();i++) {
+	    if((flights.get(i).getHomeCity().equals(code1))&& (flights.get(i).getDestinationCity().equals(code2))){
+		s=flights.get(i).getFlightNum();
+	    }
+	}
+	return s;
+    }
+
+    /**This method connects two codes to a flight cost
+     */
+
+    public static int connectCodestoFlightCost(String code1, String code2) {
+	int n=0;
+	int i=0;
+	for(i=0; i<flights.size();i++) {
+	    if((flights.get(i).getHomeCity().equals(code1))&& (flights.get(i).getDestinationCity().equals(code2))){
+		n=flights.get(i).getPrice();
+	    }
+	}
+	return n;
+    }
+
+    /**This method connects two codes to a flight city name
+     */
+   
+    public static String connectCodestoName(String aCode) {
+	String s="";
+	int i= 0;
+	Cities cityLL = new Cities("cities.txt"); //creates a cities LL
+	for(i=0; i<cityLL.getCityLL().size(); i++) {
+	    if (cityLL.getCityLL().get(i).getCode().equals(aCode)){
+		s=cityLL.getCityLL().get(i).getName();	
+	    }
+	}
+	return s;
+    }
+
+}
+

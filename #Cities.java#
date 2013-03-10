@@ -1,0 +1,76 @@
+/**WHO:Polina Soshnin
+ *WHAT: CS230 Exam 2 Problem 3
+ *WHEN: October 27, 2012
+ *MODIFIED: October 31, 2012
+ *PURPOSE: Reads in a text file containing information about 
+ *cities and their corresponding airport codes
+ *Constructs a linkedlist of city objects containing 
+ *this information
+ *
+ *The StackSearch.java class uses this class to compare airport codes for
+ *available flights and requests and matches up the codes with the 
+ *coresponding city. 
+ *
+ */
+
+import java.io.*;    
+import java.util.*;  
+import java.net.*; 
+
+public class Cities {
+
+    //instance variables
+    //a linked list of cities, each having a code and a name 
+    private static LinkedList<City> cities;
+    
+    
+    public Cities(String fileName) { 
+
+	cities= new LinkedList<City>();
+	populateCityLL(fileName); 
+	//populates LinkedList of City objects by reading in text with
+	//City information with the given filename
+    }
+
+    /**reads in a file containing information about cities,
+     *constructs city objects from each line
+     *and stores those objects in a linkedlist
+    */
+    public void populateCityLL (String txtFileName) {
+
+	try{
+	    Scanner reader= new Scanner(new File(txtFileName));
+	    String line="";
+	    while(reader.hasNext()) { //continue until we reach end of file
+		//reads next line of input and prints it out
+		line=reader.nextLine(); //next line is a string
+		String[] split= line.split(" "); 
+		//splits the given line into an array by space
+		
+		if(split.length==3) {
+		    //array of 3 means the city name is one word 
+		    //i.e. "CHI Chicago, IL"
+		    String combineName = split[1]+" "+split[2];
+		    City acity = new City(split[0], combineName);
+		    		    		    
+		    cities.add(acity); //add city to cities LinkedList
+		    
+		} else if(split.length==4) {
+		    //array of 4 means the city name is two
+		    //words. i.e. "JFK New York, NY" 
+		    String combineNam= split[1]+" "+split[2]+" "+split[3];
+		    City acity = new City(split[0], combineNam);
+      		    cities.add(acity);
+		} 
+	    }
+	    reader.close();
+	} catch (FileNotFoundException E) {
+	    System.out.println("This file has no cities in it. Please try again.");
+	}
+    }
+
+    public static LinkedList<City> getCityLL(){
+	return cities;
+    }  
+}
+
